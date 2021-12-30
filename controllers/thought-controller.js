@@ -24,6 +24,10 @@ const thoughtController = {
                 return User.findByIdAndUpdate({ _id: params.userId }, { $push: { thoughts: _id } }, { new: true });
             })
             .then(dbThoughtData => {
+                if (!dbThoughtData) {
+                    res.status(404).json({ message: 'No thought found with this id.' });
+                    return;
+                }
                 res.json(dbThoughtData)
             })
             .catch(err => {
